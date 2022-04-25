@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0%;
+            padding: 0%;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        table{
+            border: 1px solid black;
+        }
+        table > tr > td{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <table></table>
+    <input type="text" placeholder="Search">
+</body>
+<script>
+
+    var pokemdata=localStorage.getItem("pokemon")
+    if(pokemdata === null){
+        fetch(`https://pokeapi.co/api/v2/ability/?limit=20&offset=20`)
+        .then((res)=>{
+            res.json().then((res)=>{
+                
+                let arr=res.results
+                console.log(arr)
+              let str=[]
+              arr.forEach((ele) => {
+                  str.push(ele.name)
+              });
+
+              localStorage.setItem("pokemon",JSON.stringify(str))
+            })
+
+        }).catch((err)=>{
+            console.log(err)
+        })
+     
+    }
+    console.log()
+      
+      var pokemondata2=JSON.parse(localStorage.getItem("pokemon"))
+
+      console.log(pokemondata2)
+      var table=document.querySelector("table")
+      table.innerHTML=''
+      pokemondata2.forEach((ele) => {
+          let tr=document.createElement("tr")
+          let td=document.createElement("td")
+          td.innerHTML=ele
+          tr.append(td)
+          table.append(tr)
+
+      });
+
+
+      fetch(`https://pokeapi.co/api/v2/pokemon/1/`)
+        .then((res)=>{
+            res.json().then((res)=>{
+                
+                let arr=res
+                console.log(arr)
+             
+
+
+            })
+
+        }).catch((err)=>{
+            console.log(err)
+        })
+</script>
+</html>
